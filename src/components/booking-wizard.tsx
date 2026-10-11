@@ -25,15 +25,20 @@ const steps = ["Studio", "Service", "Artist", "Time", "Details"];
 type Props = {
   initialLocationId?: string;
   initialServiceId?: string;
+  initialStylistId?: string;
 };
 
-export function BookingWizard({ initialLocationId = "", initialServiceId = "" }: Props) {
+export function BookingWizard({
+  initialLocationId = "",
+  initialServiceId = "",
+  initialStylistId = "",
+}: Props) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [locationId, setLocationId] = useState(initialLocationId);
   const [category, setCategory] = useState<"salon" | "barbershop">("salon");
   const [serviceId, setServiceId] = useState(initialServiceId);
-  const [stylistId, setStylistId] = useState("");
+  const [stylistId, setStylistId] = useState(initialStylistId);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [slots, setSlots] = useState<string[]>([]);

@@ -32,3 +32,239 @@ body {
     scroll-behavior: auto;
   }
 }
+
+/* Reine / WSMENU: Home + Pages navbar hover dropdown */
+.nav-dd {
+  position: relative;
+  perspective: 600px;
+}
+
+.nav-dd__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-ink) 70%, transparent);
+  transition: color 0.2s ease;
+}
+
+.nav-dd__trigger:hover,
+.nav-dd:hover .nav-dd__trigger {
+  color: var(--color-ink);
+}
+
+.nav-dd__chevron {
+  display: inline-block;
+  font-size: 9px;
+  transition: transform 0.3s ease;
+}
+
+.nav-dd:hover .nav-dd__chevron,
+.nav-dd:focus-within .nav-dd__chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dd__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 220px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  box-shadow: 0 2px 3px rgba(96, 96, 96, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: 0% 0%;
+  transform-style: preserve-3d;
+  transform: rotateX(-75deg);
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-dd__panel--right {
+  left: auto;
+  right: 0;
+  transform-origin: 100% 0%;
+}
+
+.nav-dd:hover .nav-dd__panel,
+.nav-dd:focus-within .nav-dd__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: rotateX(0deg);
+}
+
+/* Each Home / Pages suboption animates in separately */
+.nav-dd__item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.nav-dd:hover .nav-dd__item,
+.nav-dd:focus-within .nav-dd__item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-dd:hover .nav-dd__item:nth-child(1),
+.nav-dd:focus-within .nav-dd__item:nth-child(1) {
+  transition-delay: 0.04s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(2),
+.nav-dd:focus-within .nav-dd__item:nth-child(2) {
+  transition-delay: 0.07s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(3),
+.nav-dd:focus-within .nav-dd__item:nth-child(3) {
+  transition-delay: 0.1s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(4),
+.nav-dd:focus-within .nav-dd__item:nth-child(4) {
+  transition-delay: 0.13s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(5),
+.nav-dd:focus-within .nav-dd__item:nth-child(5) {
+  transition-delay: 0.16s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(6),
+.nav-dd:focus-within .nav-dd__item:nth-child(6) {
+  transition-delay: 0.19s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(7),
+.nav-dd:focus-within .nav-dd__item:nth-child(7) {
+  transition-delay: 0.22s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(8),
+.nav-dd:focus-within .nav-dd__item:nth-child(8) {
+  transition-delay: 0.25s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(9),
+.nav-dd:focus-within .nav-dd__item:nth-child(9) {
+  transition-delay: 0.28s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(10),
+.nav-dd:focus-within .nav-dd__item:nth-child(10) {
+  transition-delay: 0.31s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(11),
+.nav-dd:focus-within .nav-dd__item:nth-child(11) {
+  transition-delay: 0.34s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(12),
+.nav-dd:focus-within .nav-dd__item:nth-child(12) {
+  transition-delay: 0.37s;
+}
+.nav-dd:hover .nav-dd__item:nth-child(n + 13),
+.nav-dd:focus-within .nav-dd__item:nth-child(n + 13) {
+  transition-delay: 0.4s;
+}
+
+/* Per-link hover: slide + accent bar (Beauty Center, Nail Salon, …) */
+.nav-dd__link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0 0.5rem 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #363636;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease,
+    padding-left 0.3s ease;
+}
+
+.nav-dd__link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-bronze);
+  transform: translateY(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-dd__link:hover,
+.nav-dd__link:focus-visible {
+  color: var(--color-bronze);
+  transform: translateX(10px);
+  padding-left: 0.75rem;
+  outline: none;
+}
+
+.nav-dd__link:hover::before,
+.nav-dd__link:focus-visible::before {
+  width: 0.5rem;
+}
+
+.nav-dd__link:active {
+  transform: translateX(6px) scale(0.98);
+  color: var(--color-ink);
+}
+
+/* Reine-style highlighted Book Online CTA */
+.nav-book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.35rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 1.75rem;
+  border: 1px solid var(--color-ink);
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.nav-book:hover,
+.nav-book:focus-visible {
+  background: var(--color-ink);
+  color: #fff;
+  outline: none;
+}
+
+.nav-book--drawer {
+  width: 100%;
+  margin-left: 0;
+  min-height: 2.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dd__panel,
+  .nav-dd__chevron,
+  .nav-dd__link,
+  .nav-dd__item,
+  .nav-book {
+    transition: none;
+  }
+
+  .nav-dd__panel,
+  .nav-dd__item,
+  .nav-dd__link {
+    transform: none;
+  }
+
+  .nav-dd__item {
+    opacity: 1;
+  }
+}

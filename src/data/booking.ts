@@ -15,6 +15,10 @@ export type BookingStylist = {
   role: string;
   locationId: string;
   serviceIds: string[];
+  experience: string;
+  bio: string[];
+  image: string;
+  alt: string;
 };
 
 export type BookingLocation = {
@@ -253,6 +257,13 @@ export const bookingStylists: BookingStylist[] = [
     role: "Creative Director",
     locationId: "wilshire",
     serviceIds: ["signature-cut", "blowout", "event-updo", "scalp"],
+    experience: "Cutting & directing since 2009",
+    bio: [
+      "Amara opened Orielle so colorists and barbers could share one standard. She still takes a short book of cuts and event styles at Wilshire.",
+      "Book her for a signature cut when you want the shape decided carefully, not rushed into a trend.",
+    ],
+    image: "/images/portrait.jpg",
+    alt: "Amara Cole",
   },
   {
     id: "lena-voss",
@@ -260,6 +271,13 @@ export const bookingStylists: BookingStylist[] = [
     role: "Color Director",
     locationId: "wilshire",
     serviceIds: ["balayage", "root-refresh", "gloss", "keratin", "signature-cut"],
+    experience: "Color since 2012",
+    bio: [
+      "Lena maps color for week twelve, not only for the photograph in the chair. Lived-in balayage and gloss work are her usual days.",
+      "Tell her what you are growing out of — the formula changes before the bowl is mixed.",
+    ],
+    image: "/images/color.jpg",
+    alt: "Lena Voss at work with color",
   },
   {
     id: "sofia-lang",
@@ -267,6 +285,13 @@ export const bookingStylists: BookingStylist[] = [
     role: "Makeup & Nails",
     locationId: "wilshire",
     serviceIds: ["soft-glam", "bridal-makeup", "gel-manicure", "spa-pedicure"],
+    experience: "Makeup & nails since 2014",
+    bio: [
+      "Sofia runs the makeup studio behind the linen curtain and the nail table at Wilshire. Soft glam and bridal faces are her strongest work.",
+      "Nails stay at this room only — book gel or a spa pedicure with her when you want both hands and a quiet hour.",
+    ],
+    image: "/images/makeup.jpg",
+    alt: "Sofia Lang applying makeup",
   },
   {
     id: "julien-march",
@@ -283,6 +308,13 @@ export const bookingStylists: BookingStylist[] = [
       "grey-blending",
       "father-son",
     ],
+    experience: "Barbering since 2008",
+    bio: [
+      "Julien keeps the Wilshire barber chairs. Fades, scissor cuts, and hot-towel shaves — he remembers a neckline without being asked twice.",
+      "Father & Son sits are often his. Ask for him when you want the same barber every visit.",
+    ],
+    image: "/images/barber.jpg",
+    alt: "Julien March at the barber chair",
   },
   {
     id: "noah-ellis",
@@ -290,6 +322,13 @@ export const bookingStylists: BookingStylist[] = [
     role: "Senior Stylist",
     locationId: "silver-lake",
     serviceIds: ["signature-cut", "blowout", "balayage", "root-refresh", "gloss", "scalp"],
+    experience: "Cutting & color since 2015",
+    bio: [
+      "Noah leads the Silver Lake salon book — cuts that still look like you, and color that survives the week.",
+      "Saturday mornings fill first. Book ahead if you want him for balayage or a first visit cut.",
+    ],
+    image: "/images/finish.jpg",
+    alt: "Noah Ellis finished cut",
   },
   {
     id: "mateo-ruiz",
@@ -297,6 +336,13 @@ export const bookingStylists: BookingStylist[] = [
     role: "Barber",
     locationId: "silver-lake",
     serviceIds: ["classic-cut", "skin-fade", "scissor-cut", "beard-sculpt", "cut-and-beard", "father-son"],
+    experience: "Barbering since 2016",
+    bio: [
+      "Mateo’s fades stay sharp past Friday. The Sunset shop is calmer than the street suggests, and that is how he likes the chair.",
+      "Book Cut & Beard when you want the haircut and the line work in one sitting.",
+    ],
+    image: "/images/fade.jpg",
+    alt: "Mateo Ruiz skin fade",
   },
   {
     id: "iris-chen",
@@ -312,6 +358,13 @@ export const bookingStylists: BookingStylist[] = [
       "grey-blending",
       "hot-towel",
     ],
+    experience: "Salon & grooming since 2017",
+    bio: [
+      "Iris works both sides of the Silver Lake book — salon cuts, gloss, and quieter grooming appointments.",
+      "Grey blending and hot-towel work are good reasons to choose her if you want a soft hand and a clear consult.",
+    ],
+    image: "/images/beard.jpg",
+    alt: "Iris Chen grooming work",
   },
 ];
 

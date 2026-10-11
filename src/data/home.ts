@@ -226,4 +226,70 @@ export function getNote(slug: string) {
   return notes.find((note) => note.slug === slug);
 }
 
+export const faqs = [
+  {
+    question: "How do I schedule an appointment?",
+    answer: [
+      "Book online at any time, or call the studio you want. Choose a room, a service, and an artist — or leave the artist as “any available.”",
+      "Payment is at the studio when you arrive. New guests: mention “first visit” when you call for twenty percent off the starting price.",
+    ],
+  },
+  {
+    question: "Who should I choose as my artist?",
+    answer: [
+      "If you already know who you like, book that chair. If you are new, choose “any available” or read the Team page — each artist lists the services they take.",
+      "Color and bridal makeup stay strongest with the specialists who hold those books. Fades and shaves are with the barbers.",
+    ],
+  },
+  {
+    question: "If I need to cancel, what should I do?",
+    answer: [
+      "Call the studio on your confirmation as soon as you can. Same-day changes are easiest by phone — the book moves after ten.",
+      "Keep your reference code (ORI-XXXX) when you call so the desk can find the sitting quickly.",
+    ],
+  },
+  {
+    question: "Do you take gift cards or certificates?",
+    answer: [
+      "Yes. Digital gift cards are available in set amounts on the Gift cards page. Request one online and the desk confirms by email — redemption is at either studio.",
+      "We also accept gift certificates purchased at the front desk.",
+    ],
+  },
+  {
+    question: "What products do you use?",
+    answer: [
+      "We keep a short shelf of professional color, styling, and grooming lines chosen for Los Angeles water and weather — not a wall of retail noise.",
+      "Ask your artist what is on your hair or in your kit; they will tell you what to buy only if it earns a place at home.",
+    ],
+  },
+  {
+    question: "Which services are at which studio?",
+    answer: [
+      "Wilshire is the full room: salon, barber, makeup, and nails. Silver Lake is cuts, color, and the gentlemen’s chairs.",
+      "Makeup and nails are Wilshire only. Silver Lake opens an hour earlier on Saturdays.",
+    ],
+  },
+];
+
+export const giftCards = [
+  {
+    id: "card-100",
+    amount: 100,
+    label: "$100",
+    blurb: "A gloss, a classic cut, or toward a longer sitting.",
+  },
+  {
+    id: "card-250",
+    amount: 250,
+    label: "$250",
+    blurb: "Color, an event style, or a generous first visit.",
+  },
+  {
+    id: "card-500",
+    amount: 500,
+    label: "$500",
+    blurb: "Balayage, bridal, or several visits across the year.",
+  },
+];
+
 export const strip = [images.cut, images.beard, images.nails, images.fade, images.salon, images.shop];

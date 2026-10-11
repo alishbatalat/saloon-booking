@@ -8,10 +8,16 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ location?: string; service?: string }>;
+  searchParams: Promise<{ location?: string; service?: string; stylist?: string }>;
 };
 
 export default async function BookingPage({ searchParams }: Props) {
   const params = await searchParams;
-  return <BookingWizard initialLocationId={params.location || ""} initialServiceId={params.service || ""} />;
+  return (
+    <BookingWizard
+      initialLocationId={params.location || ""}
+      initialServiceId={params.service || ""}
+      initialStylistId={params.stylist || ""}
+    />
+  );
 }

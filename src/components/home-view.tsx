@@ -1,27 +1,43 @@
 import Image from "next/image";
 
+import { HeroImageSlider } from "@/components/hero-image-slider";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { Reveal } from "@/components/reveal";
 import { TestimonialSlider } from "@/components/testimonial-slider";
-import { features, gallery, hours, images, locations, menu, notes, strip } from "@/data/home";
+import { getHomeDemo, type HomeDemo } from "@/data/home-demos";
+import { gallery, hours, images, locations, menu, notes, strip } from "@/data/home";
 
-export function HomeView() {
+type Props = {
+  demo?: HomeDemo;
+};
+
+export function HomeView({ demo = getHomeDemo("beauty-center")! }: Props) {
+  const useHeroSlider = Boolean(demo.heroSlides?.length);
+
   return (
     <>
-      <section id="top" className="relative min-h-[82vh] overflow-hidden bg-night">
-        <Image src={images.hero} alt="A guest in the Orielle makeup studio" fill priority className="object-cover object-[center_20%]" sizes="100vw" />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="relative z-10 flex min-h-[82vh] flex-col items-center justify-center px-6 text-center text-white">
-          <p className="text-[12px] uppercase tracking-[0.42em]">Los Angeles</p>
-          <h1 className="mt-5 max-w-4xl font-serif text-5xl font-normal uppercase leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
-            Welcome to Orielle
-          </h1>
-          <p className="mt-6 text-sm uppercase tracking-[0.34em] md:text-base">Your salon and barbershop</p>
-          <a href="#studio" className="mt-10 inline-flex min-h-12 min-w-48 items-center justify-center border border-white px-8 text-[12px] uppercase tracking-[0.22em] transition hover:bg-white hover:text-ink">
-            Discover more
-          </a>
-        </div>
-      </section>
+      {useHeroSlider ? (
+        <HeroImageSlider
+          slides={demo.heroSlides!}
+          title={demo.title}
+          subtitle={demo.subtitle}
+          eyebrow={demo.heroEyebrow}
+        />
+      ) : (
+        <section id="top" className="relative min-h-[82vh] overflow-hidden bg-night">
+          <Image src={demo.heroImage} alt={demo.heroAlt} fill priority className="object-cover object-[center_20%]" sizes="100vw" />
+          <div className="absolute inset-0 bg-black/35" />
+          <div className="relative z-10 flex min-h-[82vh] flex-col items-center justify-center px-6 text-center text-white">
+            <h1 className="max-w-4xl font-serif text-5xl font-normal uppercase leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
+              {demo.title}
+            </h1>
+            <p className="mt-6 text-sm uppercase tracking-[0.34em] md:text-base">{demo.subtitle}</p>
+            <a href="#studio" className="mt-10 inline-flex min-h-12 min-w-48 items-center justify-center border border-white px-8 text-[12px] uppercase tracking-[0.22em] transition hover:bg-white hover:text-ink">
+              Discover more
+            </a>
+          </div>
+        </section>
+      )}
 
       <section id="studio" className="mx-auto grid max-w-[1240px] items-center gap-12 px-6 py-24 md:grid-cols-2 md:py-32">
         <Reveal>
@@ -30,16 +46,14 @@ export function HomeView() {
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-[12px] uppercase tracking-[0.28em] text-bronze">Mind, hair, and ritual</p>
-          <h2 className="mt-4 font-serif text-4xl uppercase leading-tight tracking-tight text-ink md:text-5xl">Your secret place of grooming</h2>
-          <p className="mt-6 max-w-md text-base leading-8">
-            Orielle opened in 2016 as a room that refused to split the salon from the barbershop. The same standard sits in both chairs: a consultation, a precise cut, and enough quiet to hear yourself think.
-          </p>
+          <p className="text-[12px] uppercase tracking-[0.28em] text-bronze">{demo.eyebrow}</p>
+          <h2 className="mt-4 font-serif text-4xl uppercase leading-tight tracking-tight text-ink md:text-5xl">{demo.aboutTitle}</h2>
+          <p className="mt-6 max-w-md text-base leading-8">{demo.aboutCopy}</p>
           <a href="/studio" className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white">
             The studio
           </a>
           <ul className="mt-8 space-y-6">
-            {features.map(([index, title, copy]) => (
+            {demo.focusItems.map(([index, title, copy]) => (
               <li key={index} className="grid grid-cols-[auto_1fr] gap-4">
                 <span className="pt-1 text-[12px] tracking-[0.18em] text-bronze">{index}</span>
                 <span>

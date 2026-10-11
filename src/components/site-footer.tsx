@@ -3,7 +3,7 @@ import { hours, locations } from "@/data/home";
 export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-stone">
-      <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-16 md:grid-cols-3">
+      <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-16 md:grid-cols-4">
         <div>
           <h2 className="font-serif text-2xl uppercase tracking-tight text-ink">Our studios</h2>
           <div className="mt-5 space-y-5 text-sm leading-7">
@@ -17,6 +17,25 @@ export function SiteFooter() {
               </p>
             ))}
           </div>
+        </div>
+        <div>
+          <h2 className="font-serif text-2xl uppercase tracking-tight text-ink">Explore</h2>
+          <ul className="mt-5 space-y-2 text-sm leading-7">
+            {[
+              ["About", "/studio"],
+              ["Services", "/menu"],
+              ["Team", "/team"],
+              ["Gallery", "/gallery"],
+              ["Blog", "/journal"],
+              ["Contact", "/contact"],
+            ].map(([label, href]) => (
+              <li key={href}>
+                <a href={href} className="text-ink hover:text-bronze">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
         <div>
           <h2 className="font-serif text-2xl uppercase tracking-tight text-ink">Get in touch</h2>
