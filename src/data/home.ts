@@ -91,6 +91,14 @@ export const menuGroups = [
   },
 ];
 
+export const menuHighlights = [
+  { src: "/images/menu/pixie-crop.png", alt: "Stylist tousling a finished pixie crop", caption: "Pixie crop", tall: true },
+  { src: "/images/menu/soft-blush.png", alt: "Soft blush application close-up", caption: "Soft blush", tall: false },
+  { src: "/images/menu/skin-treatment.png", alt: "Hydrating facial treatment", caption: "Skin treatment", tall: false },
+  { src: "/images/menu/finished-glam.png", alt: "Finished glam portrait with gold hoops", caption: "Finished glam", tall: false },
+  { src: "/images/menu/bold-lip.png", alt: "Portrait with a bold berry lip", caption: "Bold lip", tall: false },
+];
+
 export const gallery = [
   { src: images.cut, alt: "Stylist cutting long hair", caption: "Signature cut", tall: true },
   { src: images.barber, alt: "Barber at work", caption: "The gentlemen’s chair", tall: false },

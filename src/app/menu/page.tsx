@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+import { GalleryGrid } from "@/components/gallery-grid";
 import { Reveal } from "@/components/reveal";
-import { images, menuGroups } from "@/data/home";
+import { images, menuGroups, menuHighlights } from "@/data/home";
 
 export const metadata: Metadata = {
   title: "The Menu — Orielle",
@@ -13,7 +14,7 @@ export default function MenuPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.portrait} alt="Portrait from the Wilshire studio" fill priority className="object-cover object-[center_20%]" sizes="100vw" />
+        <Image src={images.portrait} alt="Portrait from the Wilshire studio" fill priority className="object-cover object-[center_20%] bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">Salon & barbershop</p>
@@ -32,7 +33,10 @@ export default function MenuPage() {
       <section className="mx-auto max-w-[1000px] space-y-20 px-6 pb-24">
         {menuGroups.map((group) => (
           <Reveal key={group.title}>
-            <div className="flex flex-col gap-2 border-b border-line pb-4 sm:flex-row sm:items-baseline sm:justify-between">
+            <div
+              id={group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
+              className="flex scroll-mt-28 flex-col gap-2 border-b border-line pb-4 sm:flex-row sm:items-baseline sm:justify-between"
+            >
               <h2 className="font-serif text-4xl uppercase tracking-tight text-ink">{group.title}</h2>
               <p className="text-[12px] uppercase tracking-[0.22em] text-bronze">{group.category}</p>
             </div>
@@ -52,6 +56,14 @@ export default function MenuPage() {
         ))}
       </section>
 
+      <section className="mx-auto max-w-[1240px] px-6 pb-24">
+        <Reveal className="mb-10 text-center">
+          <p className="text-[12px] uppercase tracking-[0.28em] text-bronze">A closer look</p>
+          <h2 className="mt-3 font-serif text-4xl uppercase tracking-tight text-ink md:text-6xl">From the chair</h2>
+        </Reveal>
+        <GalleryGrid items={menuHighlights} />
+      </section>
+
       <section className="bg-stone">
         <div className="mx-auto grid max-w-[1100px] items-center gap-10 px-6 py-20 md:grid-cols-[0.9fr_1.1fr]">
           <div className="relative aspect-[4/5] overflow-hidden">
@@ -64,10 +76,10 @@ export default function MenuPage() {
               Choose the studio that fits the service. Wilshire keeps makeup and nails. Silver Lake is cuts, color, and the barber chairs.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="/booking" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+              <a href="/booking" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
                 Book online
               </a>
-              <a href="tel:3235550148" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+              <a href="tel:3235550148" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
                 Wilshire · 555-0148
               </a>
             </div>

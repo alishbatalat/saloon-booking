@@ -318,7 +318,7 @@ export function BookingWizard({
               <button
                 type="submit"
                 disabled={pending || !canContinue()}
-                className="h-12 border border-ink text-[12px] uppercase tracking-[0.2em] text-ink hover:bg-ink hover:text-white disabled:opacity-40"
+                className="h-12 border border-ink text-[12px] uppercase tracking-[0.2em] text-ink btn-fill disabled:opacity-40"
               >
                 {pending ? "Saving…" : "Confirm appointment"}
               </button>
@@ -343,7 +343,7 @@ export function BookingWizard({
               type="button"
               disabled={!canContinue()}
               onClick={() => setStep((value) => value + 1)}
-              className="h-12 border border-ink px-8 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white disabled:opacity-40"
+              className="h-12 border border-ink px-8 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill disabled:opacity-40"
             >
               Continue
             </button>

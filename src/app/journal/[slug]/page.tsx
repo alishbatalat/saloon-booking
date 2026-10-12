@@ -34,7 +34,7 @@ export default async function JournalArticlePage({ params }: Props) {
     <>
       <article>
         <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-          <Image src={note.image} alt={note.alt} fill priority className="object-cover" sizes="100vw" />
+          <Image src={note.image} alt={note.alt} fill priority className="object-cover bg-pan" sizes="100vw" />
           <div className="absolute inset-0 bg-black/45" />
           <div className="relative z-10 mx-auto w-full max-w-[900px] px-6 pb-16 pt-28 text-center text-white">
             <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">
@@ -56,13 +56,13 @@ export default async function JournalArticlePage({ params }: Props) {
           <div className="mt-12 flex flex-wrap gap-3 border-t border-line pt-10">
             <Link
               href="/journal"
-              className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill"
             >
               All notes
             </Link>
             <a
               href="/booking"
-              className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill"
             >
               Book now
             </a>

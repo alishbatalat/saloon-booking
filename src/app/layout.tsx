@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Vollkorn:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Vollkorn:wght@400;500;600;700&family=Meow+Script&display=swap"
           rel="stylesheet"
         />
       </head>

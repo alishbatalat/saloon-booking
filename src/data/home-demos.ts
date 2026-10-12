@@ -1,4 +1,5 @@
 import { images } from "@/data/home";
+import type { GalleryItem } from "@/components/gallery-grid";
 
 export type HomeDemo = {
   slug: string;
@@ -16,6 +17,10 @@ export type HomeDemo = {
   aboutCopy: string;
   focusLabel: string;
   focusItems: [string, string, string][];
+  /** When set, a Portfolio grid renders after the Working hours section. */
+  portfolio?: { eyebrow: string; title: string; items: GalleryItem[] };
+  /** When set, a pull-quote followed by a small image pair renders after Working hours / Portfolio. */
+  quoteGallery?: { eyebrow: string; quote: string; items: GalleryItem[] };
 };
 
 export const homeDemos: HomeDemo[] = [
@@ -47,6 +52,12 @@ export const homeDemos: HomeDemo[] = [
     eyebrow: "Wilshire nails",
     heroImage: images.nails,
     heroAlt: "Manicure at Orielle",
+    heroEyebrow: "Fresh, shiny, bright",
+    heroSlides: [
+      { src: "/images/demos/nail-salon/french-tip-almond.png", alt: "Glossy almond nails with a classic white French tip" },
+      { src: "/images/demos/nail-salon/ombre-coffin.png", alt: "Long coffin nails with a soft pink-to-white ombre" },
+      { src: "/images/demos/nail-salon/classic-red.png", alt: "Round almond nails in a deep glossy red" },
+    ],
     aboutTitle: "Quiet hands, clean finish",
     aboutCopy:
       "Nails stay at Wilshire — shaping, cuticle care, gel color, and spa pedicures. Book the table when you want the hour to feel slow.",
@@ -56,6 +67,16 @@ export const homeDemos: HomeDemo[] = [
       ["02", "Spa pedicure", "Soak, polish, and an unhurried foot massage."],
       ["03", "Wilshire only", "The nail table lives behind the linen curtain on La Cienega."],
     ],
+    portfolio: {
+      eyebrow: "Nail art",
+      title: "Our portfolio",
+      items: [
+        { src: "/images/demos/nail-salon/portfolio/black-gold-swirl.png", alt: "Black coffin nails with a gold swirl and leaf accent", caption: "Black & gold swirl", tall: true },
+        { src: "/images/demos/nail-salon/portfolio/pearl-chrome.png", alt: "Pearl chrome almond nails", caption: "Pearl chrome", tall: false },
+        { src: "/images/demos/nail-salon/portfolio/lilac-daisy.png", alt: "Lilac nails with hand-painted daisies", caption: "Lilac daisy", tall: false },
+        { src: "/images/demos/nail-salon/portfolio/classic-red-almond.png", alt: "Classic glossy red almond nails", caption: "Classic red", tall: true },
+      ],
+    },
   },
   {
     slug: "hair-salon",
@@ -66,6 +87,12 @@ export const homeDemos: HomeDemo[] = [
     eyebrow: "Salon chairs",
     heroImage: images.cut,
     heroAlt: "Salon cut in progress",
+    heroEyebrow: "Shaped, smoothed, finished",
+    heroSlides: [
+      { src: "/images/demos/hair-salon/blowout-finish.png", alt: "Stylist round-brushing a blowout at Orielle" },
+      { src: "/images/demos/hair-salon/precision-cut.png", alt: "Precision scissor cut on wet hair" },
+      { src: "/images/demos/hair-salon/bridal-updo.png", alt: "Pinned bridal updo finished at the chair" },
+    ],
     aboutTitle: "A cut that still looks like you",
     aboutCopy:
       "Signature cuts, blowouts, and event styles with a consultation first. Both studios keep the salon book — Wilshire and Silver Lake.",
@@ -75,6 +102,15 @@ export const homeDemos: HomeDemo[] = [
       ["02", "Blowout & style", "Smooth movement for dinners, fittings, and photographs."],
       ["03", "Event updo", "Pinned styles built to last a long evening — Wilshire."],
     ],
+    quoteGallery: {
+      eyebrow: "In the chair",
+      quote:
+        "A great cut is never loud in the mirror. It is the thing you forget to think about for three weeks — which is the whole point.",
+      items: [
+        { src: "/images/demos/hair-salon/portfolio/curly-texture.png", alt: "Stylist shaping natural curls", caption: "Natural texture" },
+        { src: "/images/demos/hair-salon/portfolio/bob-finish.png", alt: "Finished sleek bob, side profile", caption: "Sleek bob" },
+      ],
+    },
   },
   {
     slug: "hair-lounge",

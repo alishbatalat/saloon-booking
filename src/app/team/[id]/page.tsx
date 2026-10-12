@@ -60,13 +60,13 @@ export default async function TeamMemberPage({ params }: Props) {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a
               href={`/booking?location=${artist.locationId}&stylist=${artist.id}`}
-              className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
             >
               Book with {artist.name.split(" ")[0]}
             </a>
             <Link
               href="/team"
-              className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
             >
               All artists
             </Link>

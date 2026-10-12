@@ -76,13 +76,13 @@ export default async function BookingConfirmationPage({ params }: Props) {
       <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           href="/"
-          className="inline-flex min-h-12 min-w-44 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white"
+          className="inline-flex min-h-12 min-w-44 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill"
         >
           Back home
         </Link>
         <a
           href={location ? `tel:${location.phone.replace(/\D/g, "")}` : "/locations"}
-          className="inline-flex min-h-12 min-w-44 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white"
+          className="inline-flex min-h-12 min-w-44 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill"
         >
           Call the studio
         </a>

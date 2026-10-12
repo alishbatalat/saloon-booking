@@ -32,7 +32,7 @@ export function NewsletterForm() {
         />
         <button
           type="submit"
-          className="h-12 border border-ink px-6 text-[12px] uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-white"
+          className="h-12 border border-ink px-6 text-[12px] uppercase tracking-[0.2em] text-ink btn-fill"
         >
           Subscribe
         </button>

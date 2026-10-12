@@ -81,7 +81,7 @@ export function HeroImageSlider({
               alt={slide.alt}
               fill
               priority={index === 0}
-              className="object-cover"
+              className="object-cover bg-pan"
               sizes="100vw"
             />
           </motion.div>
@@ -111,7 +111,7 @@ export function HeroImageSlider({
         <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-muted">{subtitle}</p>
         <a
           href={ctaHref}
-          className="mt-8 inline-flex min-h-12 min-w-48 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+          className="mt-8 inline-flex min-h-12 min-w-48 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
         >
           {ctaLabel}
         </a>

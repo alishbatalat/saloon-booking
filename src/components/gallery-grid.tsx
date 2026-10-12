@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type GalleryItem = {
+export type GalleryItem = {
   src: string;
   alt: string;
   caption: string;

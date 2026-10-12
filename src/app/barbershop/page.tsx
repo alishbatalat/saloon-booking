@@ -21,7 +21,7 @@ export default function BarbershopPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.barber} alt="Barber finishing a cut" fill priority className="object-cover" sizes="100vw" />
+        <Image src={images.barber} alt="Barber finishing a cut" fill priority className="object-cover bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">Wilshire & Silver Lake</p>
@@ -90,7 +90,7 @@ export default function BarbershopPage() {
           </Reveal>
         ))}
         <div className="text-center">
-          <a href="/menu" className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white">
+          <a href="/menu" className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill">
             View the full menu
           </a>
         </div>
@@ -119,10 +119,10 @@ export default function BarbershopPage() {
             Call the studio you prefer. Saturdays fill early at Silver Lake. Sundays are shorter — a good hour for a real change.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="/booking?location=silver-lake" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+            <a href="/booking?location=silver-lake" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
               Book online
             </a>
-            <a href="tel:3235550194" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+            <a href="tel:3235550194" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
               Silver Lake · 555-0194
             </a>
           </div>

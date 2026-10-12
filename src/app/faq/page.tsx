@@ -14,7 +14,7 @@ export default function FaqPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.shop} alt="Orielle studio" fill priority className="object-cover" sizes="100vw" />
+        <Image src={images.shop} alt="Orielle studio" fill priority className="object-cover bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">Answers</p>

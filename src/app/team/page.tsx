@@ -26,7 +26,7 @@ export default function TeamPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.portrait} alt="Orielle artist" fill priority className="object-cover" sizes="100vw" />
+        <Image src={images.portrait} alt="Orielle artist" fill priority className="object-cover bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">Artists + staff</p>
@@ -88,7 +88,7 @@ export default function TeamPage() {
           <p className="mt-5 leading-8">Pick the artist in the booking flow, or let the desk place you with the next open chair.</p>
           <a
             href="/booking"
-            className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+            className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
           >
             Book an appointment
           </a>

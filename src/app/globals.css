@@ -33,6 +33,170 @@ body {
   }
 }
 
+/* Services nav menu — a self-contained fade/slide dropdown with a sliding accent bar per row
+   (inspired by dev.to/webdeasy "35 CSS Menus (+ Animations)"). Scoped entirely to .svc-menu*
+   so it never touches .nav-dd or any other existing styling. */
+.svc-menu {
+  position: relative;
+}
+
+.svc-menu__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-ink) 70%, transparent);
+  transition: color 0.2s ease;
+}
+
+.svc-menu__trigger:hover,
+.svc-menu:hover .svc-menu__trigger,
+.svc-menu:focus-within .svc-menu__trigger {
+  color: var(--color-ink);
+}
+
+.svc-menu__chevron {
+  display: inline-block;
+  font-size: 9px;
+  transition: transform 0.3s ease;
+}
+
+.svc-menu:hover .svc-menu__chevron,
+.svc-menu:focus-within .svc-menu__chevron {
+  transform: rotate(180deg);
+}
+
+.svc-menu__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 240px;
+  padding: 0.5rem 0;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(28, 28, 28, 0.12);
+  border-top: 2px solid var(--color-bronze);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease;
+}
+
+.svc-menu:hover .svc-menu__panel,
+.svc-menu:focus-within .svc-menu__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.svc-menu__item {
+  position: relative;
+  overflow: hidden;
+}
+
+.svc-menu__item::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--color-bronze);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+
+.svc-menu__link {
+  display: block;
+  padding: 0.65rem 1.25rem;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #363636;
+  transition:
+    color 0.3s ease,
+    padding-left 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.svc-menu__item:hover::before,
+.svc-menu__item:focus-within::before {
+  transform: scaleY(1);
+}
+
+.svc-menu__item:hover .svc-menu__link,
+.svc-menu__link:focus-visible {
+  color: var(--color-bronze);
+  padding-left: 1.6rem;
+  background: color-mix(in oklab, var(--color-stone) 70%, transparent);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-menu__panel,
+  .svc-menu__chevron,
+  .svc-menu__link,
+  .svc-menu__item::before {
+    transition: none;
+  }
+}
+
+/* "Circles" CSS background pattern (dev.to/webdeasy "30 awesome CSS Background Patterns"), re-tinted to the studio palette */
+.bg-pattern-dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--color-bronze) 35%, transparent) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: 0 0;
+}
+
+/* Slow Ken Burns drift for full-bleed background photos */
+@keyframes bg-pan-zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.09);
+  }
+}
+
+.bg-pan {
+  animation: bg-pan-zoom 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-pan {
+    animation: none;
+  }
+}
+
+/* Sliding brand/partner logo strip */
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-logo-marquee {
+  animation: logo-marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-logo-marquee {
+    animation: none;
+  }
+}
+
 /* Reine / WSMENU: Home + Pages navbar hover dropdown */
 .nav-dd {
   position: relative;
@@ -217,6 +381,9 @@ body {
 
 /* Reine-style highlighted Book Online CTA */
 .nav-book {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -230,17 +397,29 @@ body {
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
+  transition: color 0.3s ease 0.08s;
+}
+
+.nav-book::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .nav-book:hover,
 .nav-book:focus-visible {
-  background: var(--color-ink);
   color: #fff;
   outline: none;
+}
+
+.nav-book:hover::before,
+.nav-book:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .nav-book--drawer {
@@ -249,12 +428,69 @@ body {
   min-height: 2.75rem;
 }
 
+/* Sliding-fill hover used on every bordered CTA button across the site */
+.btn-fill,
+.btn-fill-light {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.3s ease 0.08s;
+}
+
+.btn-fill::before,
+.btn-fill-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.btn-fill::before {
+  background: var(--color-ink);
+}
+
+.btn-fill-light::before {
+  background: #fff;
+}
+
+.btn-fill:hover,
+.btn-fill:focus-visible {
+  color: #fff;
+  outline: none;
+}
+
+.btn-fill-light:hover,
+.btn-fill-light:focus-visible {
+  color: var(--color-ink);
+  outline: none;
+}
+
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before,
+.btn-fill-light:hover::before,
+.btn-fill-light:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-fill:disabled,
+.btn-fill-light:disabled {
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav-dd__panel,
   .nav-dd__chevron,
   .nav-dd__link,
   .nav-dd__item,
-  .nav-book {
+  .nav-book,
+  .nav-book::before,
+  .btn-fill,
+  .btn-fill::before,
+  .btn-fill-light,
+  .btn-fill-light::before {
     transition: none;
   }
 

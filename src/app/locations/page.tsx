@@ -13,7 +13,7 @@ export default function LocationsPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.wilshire} alt="Orielle Wilshire" fill priority className="object-cover" sizes="100vw" />
+        <Image src={images.wilshire} alt="Orielle Wilshire" fill priority className="object-cover bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">Los Angeles</p>
@@ -76,7 +76,7 @@ export default function LocationsPage() {
                 </dl>
                 <a
                   href={`tel:${location.phone.replace(/\D/g, "")}`}
-                  className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+                  className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
                 >
                   Call this studio
                 </a>
@@ -116,10 +116,10 @@ export default function LocationsPage() {
               Makeup and nails stay at Wilshire. Silver Lake is cuts, color, and the barber chairs. Mention “first visit” when you call for twenty percent off the starting price.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="/menu" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+              <a href="/menu" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
                 The menu
               </a>
-              <a href="/booking" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+              <a href="/booking" className="inline-flex min-h-12 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
                 Book now
               </a>
             </div>

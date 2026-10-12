@@ -9,13 +9,13 @@ export default function NotFound() {
       <div className="mt-10 flex flex-col gap-3 sm:flex-row">
         <Link
           href="/"
-          className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+          className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
         >
           Home
         </Link>
         <Link
           href="/booking"
-          className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+          className="inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
         >
           Book now
         </Link>

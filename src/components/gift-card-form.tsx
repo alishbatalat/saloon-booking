@@ -72,7 +72,7 @@ export function GiftCardForm({ initialAmount = giftCards[1].amount }: Props) {
         <button
           type="button"
           onClick={() => setSent(false)}
-          className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink transition hover:bg-ink hover:text-white"
+          className="mt-8 inline-flex min-h-12 items-center justify-center border border-ink px-8 text-[12px] uppercase tracking-[0.22em] text-ink btn-fill"
         >
           Request another
         </button>
@@ -138,7 +138,7 @@ export function GiftCardForm({ initialAmount = giftCards[1].amount }: Props) {
       <button
         type="submit"
         disabled={pending}
-        className="h-12 border border-ink text-[12px] uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-white disabled:opacity-40"
+        className="h-12 border border-ink text-[12px] uppercase tracking-[0.2em] text-ink btn-fill disabled:opacity-40"
       >
         {pending ? "Sending…" : "Request gift card"}
       </button>

@@ -14,7 +14,7 @@ export default function JournalPage() {
   return (
     <>
       <section className="relative flex min-h-[52vh] items-end overflow-hidden bg-night">
-        <Image src={images.salon} alt="Orielle salon" fill priority className="object-cover" sizes="100vw" />
+        <Image src={images.salon} alt="Orielle salon" fill priority className="object-cover bg-pan" sizes="100vw" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 text-center text-white">
           <p className="mb-4 text-[12px] uppercase tracking-[0.34em]">From the desk</p>
@@ -68,10 +68,10 @@ export default function JournalPage() {
             Ready for a gloss, a shave, or a quieter Sunday hour? Book online or call the studio that fits.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="/booking" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+            <a href="/booking" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
               Book online
             </a>
-            <a href="tel:3235550148" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink hover:bg-ink hover:text-white">
+            <a href="tel:3235550148" className="inline-flex min-h-12 min-w-52 items-center justify-center border border-ink px-6 text-[12px] uppercase tracking-[0.18em] text-ink btn-fill">
               Wilshire · 555-0148
             </a>
           </div>
