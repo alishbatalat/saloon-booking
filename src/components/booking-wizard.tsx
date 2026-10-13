@@ -13,12 +13,14 @@ import {
 import {
   addDays,
   durationLabel,
+  formatDate,
   formatShortDate,
   formatTime,
   losAngelesToday,
   money,
   weekdayName,
 } from "@/lib/booking-format";
+import { sendWeb3FormsEmail } from "@/lib/web3forms";
 
 const steps = ["Studio", "Service", "Artist", "Time", "Details"];
 
@@ -126,6 +128,20 @@ export function BookingWizard({
       setError(payload.error || "Could not save the appointment.");
       return;
     }
+
+    void sendWeb3FormsEmail(`New booking — ${payload.appointment.reference}`, {
+      name: guest.name,
+      email: guest.email,
+      phone: guest.phone,
+      reference: payload.appointment.reference,
+      studio: location?.name ?? locationId,
+      service: service?.name ?? serviceId,
+      artist: stylistId === "any" ? "First available" : (artist?.name ?? stylistId),
+      when: `${formatDate(date)} · ${formatTime(time)}`,
+      amount: service ? money(service.price) : "—",
+      notes: guest.notes || "—",
+    });
+
     router.push(`/booking/${payload.appointment.reference}`);
   }
 

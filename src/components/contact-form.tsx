@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 
+import { sendWeb3FormsEmail } from "@/lib/web3forms";
+
 const subjects = ["General inquiry", "Booking help", "Bridal & events", "Press", "Careers", "Other"];
 
 const studios = [
@@ -39,6 +41,15 @@ export function ContactForm() {
         setError(data.error || "Could not send the message.");
         return;
       }
+      void sendWeb3FormsEmail(`New contact message — ${form.subject}`, {
+        name: form.name,
+        email: form.email,
+        phone: form.phone || "—",
+        studio: form.studio || "Either studio",
+        subject: form.subject,
+        message: form.message,
+      });
+
       setSent(true);
       setForm({ name: "", email: "", phone: "", studio: "", subject: subjects[0], message: "" });
     } catch {
