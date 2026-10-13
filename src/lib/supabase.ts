@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 type AppointmentInsert = {
   id?: string;
@@ -54,22 +54,27 @@ export type Database = {
   };
 };
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY is not set.");
-}
-
 declare global {
-  var __orielleSupabase: ReturnType<typeof createClient<Database>> | undefined;
+  var __orielleSupabase: SupabaseClient<Database> | undefined;
 }
 
-/** Server-only client using the service_role key — bypasses RLS, never import this from a client component. */
-export const supabase =
-  globalThis.__orielleSupabase ??
-  createClient<Database>(supabaseUrl, serviceRoleKey, {
-    auth: { persistSession: false },
-  });
+function createSupabaseClient(): SupabaseClient<Database> {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY is not set.");
+  }
+  return createClient<Database>(supabaseUrl, serviceRoleKey, { auth: { persistSession: false } });
+}
 
-if (process.env.NODE_ENV !== "production") globalThis.__orielleSupabase = supabase;
+/**
+ * Server-only client using the service_role key — bypasses RLS, never import this from a client component.
+ * Lazily created on first real use (not at module import time) so a missing env var only breaks an actual
+ * request, not Next.js's build-time route analysis, which imports every route file without calling it.
+ */
+export const supabase = new Proxy({} as SupabaseClient<Database>, {
+  get(_target, prop, receiver) {
+    const client = (globalThis.__orielleSupabase ??= createSupabaseClient());
+    return Reflect.get(client, prop, receiver);
+  },
+});
