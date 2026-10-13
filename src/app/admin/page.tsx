@@ -7,6 +7,7 @@ import { formatDate, formatTime, money } from "@/lib/booking-format";
 import { ADMIN_SESSION_COOKIE, adminDisplayName, isValidAdminSession } from "@/lib/admin-auth";
 import { listAppointments, listContactMessages } from "@/lib/store";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
+import { ApproveMessageButton } from "@/components/approve-message-button";
 
 export const metadata: Metadata = {
   title: "Admin — Orielle",
@@ -48,6 +49,7 @@ export default async function AdminPage() {
                 <th className="px-4 py-3">Studio</th>
                 <th className="px-4 py-3">Subject</th>
                 <th className="px-4 py-3">Message</th>
+                <th className="px-4 py-3">Approval</th>
               </tr>
             </thead>
             <tbody>
@@ -64,11 +66,14 @@ export default async function AdminPage() {
                   <td className="px-4 py-3">{entry.studio || "—"}</td>
                   <td className="px-4 py-3">{entry.subject}</td>
                   <td className="max-w-xs px-4 py-3 whitespace-pre-line">{entry.message}</td>
+                  <td className="px-4 py-3">
+                    <ApproveMessageButton id={entry.id} approved={entry.approved} />
+                  </td>
                 </tr>
               ))}
               {!messages.length ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-6 text-center text-muted">
+                  <td colSpan={8} className="px-4 py-6 text-center text-muted">
                     No messages yet.
                   </td>
                 </tr>
