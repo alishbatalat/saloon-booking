@@ -5,4 +5,8 @@ out
 *.log
 next-env.d.ts
 data/store.json
+data/orielle.db
+data/orielle.db-journal
+data/orielle.db-wal
+data/orielle.db-shm
 .env*.local

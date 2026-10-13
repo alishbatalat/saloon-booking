@@ -1,9 +1,7 @@
-import { promises as fs } from "fs";
-import path from "path";
-
 import { getBookingService, getBookingStylist, stylistsFor } from "@/data/booking";
 import { openSlots } from "@/lib/availability";
 import { referenceCode } from "@/lib/booking-format";
+import { db } from "@/lib/db";
 
 export type Appointment = {
   id: string;
@@ -44,41 +42,53 @@ export class StoreError extends Error {
   }
 }
 
-type StoreData = {
-  appointments: Appointment[];
-  messages: ContactMessage[];
+type AppointmentRow = {
+  id: string;
+  reference: string;
+  serviceId: string;
+  stylistId: string;
+  locationId: string;
+  date: string;
+  time: string;
+  guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  guestNotes: string;
+  amount: number;
+  status: string;
+  createdAt: string;
 };
 
-const filePath = path.join(process.cwd(), "data", "store.json");
+type MessageRow = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  studio: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+};
 
-async function readStore(): Promise<StoreData> {
-  try {
-    const raw = await fs.readFile(filePath, "utf8");
-    return { appointments: [], messages: [], ...JSON.parse(raw) };
-  } catch {
-    return { appointments: [], messages: [] };
-  }
-}
-
-async function writeStore(data: StoreData) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-}
-
-let chain: Promise<unknown> = Promise.resolve();
-
-function updateStore<T>(mutator: (data: StoreData) => T | Promise<T>) {
-  const run = chain.then(async () => {
-    const data = await readStore();
-    const result = await mutator(data);
-    await writeStore(data);
-    return result;
-  });
-  chain = run.then(
-    () => undefined,
-    () => undefined,
-  );
-  return run;
+function rowToAppointment(row: AppointmentRow): Appointment {
+  return {
+    id: row.id,
+    reference: row.reference,
+    serviceId: row.serviceId,
+    stylistId: row.stylistId,
+    locationId: row.locationId,
+    date: row.date,
+    time: row.time,
+    guest: {
+      name: row.guestName,
+      email: row.guestEmail,
+      phone: row.guestPhone,
+      notes: row.guestNotes,
+    },
+    amount: row.amount,
+    status: row.status as Appointment["status"],
+    createdAt: row.createdAt,
+  };
 }
 
 function overlaps(startA: string, durationA: number, startB: string, durationB: number) {
@@ -89,18 +99,18 @@ function overlaps(startA: string, durationA: number, startB: string, durationB: 
   return a < b + durationB && b < a + durationA;
 }
 
-function busyAppointments(data: StoreData, stylistId: string, date: string) {
-  return data.appointments.filter(
-    (appointment) =>
-      appointment.stylistId === stylistId &&
-      appointment.date === date &&
-      appointment.status !== "cancelled",
-  );
+function busyAppointments(stylistId: string, date: string): Appointment[] {
+  const rows = db
+    .prepare("SELECT * FROM appointments WHERE stylistId = ? AND date = ? AND status != 'cancelled'")
+    .all(stylistId, date) as unknown as AppointmentRow[];
+  return rows.map(rowToAppointment);
 }
 
 export async function getAppointmentByReference(reference: string) {
-  const data = await readStore();
-  return data.appointments.find((appointment) => appointment.reference === reference) ?? null;
+  const row = db.prepare("SELECT * FROM appointments WHERE reference = ?").get(reference) as
+    | AppointmentRow
+    | undefined;
+  return row ? rowToAppointment(row) : null;
 }
 
 export async function availableTimes(input: {
@@ -122,11 +132,10 @@ export async function availableTimes(input: {
 
   if (!candidates.length) throw new StoreError("No artist at this studio offers that service.");
 
-  const data = await readStore();
   const slots = openSlots(input.locationId, input.date, service.duration);
   return slots.filter((slot) =>
     candidates.some((stylist) =>
-      busyAppointments(data, stylist.id, input.date).every((appointment) => {
+      busyAppointments(stylist.id, input.date).every((appointment) => {
         const booked = getBookingService(appointment.serviceId);
         if (!booked) return true;
         return !overlaps(slot, service.duration, appointment.time, booked.duration);
@@ -135,8 +144,8 @@ export async function availableTimes(input: {
   );
 }
 
-function assertSlotOpen(data: StoreData, stylistId: string, date: string, time: string, duration: number) {
-  const conflict = busyAppointments(data, stylistId, date).some((appointment) => {
+function assertSlotOpen(stylistId: string, date: string, time: string, duration: number) {
+  const conflict = busyAppointments(stylistId, date).some((appointment) => {
     const booked = getBookingService(appointment.serviceId);
     return booked ? overlaps(time, duration, appointment.time, booked.duration) : false;
   });
@@ -166,48 +175,68 @@ export async function createAppointment(input: {
   if (!input.guest.email.includes("@")) throw new StoreError("Enter a valid email.");
   if (input.guest.phone.trim().length < 7) throw new StoreError("Enter a phone number.");
 
-  return updateStore((data) => {
-    let stylistId = input.stylistId;
-    if (stylistId === "any") {
-      const match = stylistsFor(input.locationId, input.serviceId).find((stylist) => {
-        try {
-          assertSlotOpen(data, stylist.id, input.date, input.time, service.duration);
-          return true;
-        } catch {
-          return false;
-        }
-      });
-      if (!match) throw new StoreError("That time was just taken. Choose another.", 409);
-      stylistId = match.id;
-    } else {
-      const stylist = getBookingStylist(stylistId);
-      if (!stylist || stylist.locationId !== input.locationId || !stylist.serviceIds.includes(service.id)) {
-        throw new StoreError("That artist does not offer this service at the chosen studio.");
+  // No `await` between the conflict check and the insert below — Node runs this synchronously
+  // in one tick, so no other request can interleave and create a double-booking.
+  let stylistId = input.stylistId;
+  if (stylistId === "any") {
+    const match = stylistsFor(input.locationId, input.serviceId).find((stylist) => {
+      try {
+        assertSlotOpen(stylist.id, input.date, input.time, service.duration);
+        return true;
+      } catch {
+        return false;
       }
-      assertSlotOpen(data, stylistId, input.date, input.time, service.duration);
+    });
+    if (!match) throw new StoreError("That time was just taken. Choose another.", 409);
+    stylistId = match.id;
+  } else {
+    const stylist = getBookingStylist(stylistId);
+    if (!stylist || stylist.locationId !== input.locationId || !stylist.serviceIds.includes(service.id)) {
+      throw new StoreError("That artist does not offer this service at the chosen studio.");
     }
+    assertSlotOpen(stylistId, input.date, input.time, service.duration);
+  }
 
-    const appointment: Appointment = {
-      id: crypto.randomUUID(),
-      reference: referenceCode(),
-      serviceId: service.id,
-      stylistId,
-      locationId: input.locationId,
-      date: input.date,
-      time: input.time,
-      guest: {
-        name: input.guest.name.trim(),
-        email: input.guest.email.trim().toLowerCase(),
-        phone: input.guest.phone.trim(),
-        notes: input.guest.notes.trim(),
-      },
-      amount: service.price,
-      status: "confirmed",
-      createdAt: new Date().toISOString(),
-    };
-    data.appointments.push(appointment);
-    return appointment;
-  });
+  const appointment: Appointment = {
+    id: crypto.randomUUID(),
+    reference: referenceCode(),
+    serviceId: service.id,
+    stylistId,
+    locationId: input.locationId,
+    date: input.date,
+    time: input.time,
+    guest: {
+      name: input.guest.name.trim(),
+      email: input.guest.email.trim().toLowerCase(),
+      phone: input.guest.phone.trim(),
+      notes: input.guest.notes.trim(),
+    },
+    amount: service.price,
+    status: "confirmed",
+    createdAt: new Date().toISOString(),
+  };
+
+  db.prepare(
+    `INSERT INTO appointments (id, reference, serviceId, stylistId, locationId, date, time, guestName, guestEmail, guestPhone, guestNotes, amount, status, createdAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  ).run(
+    appointment.id,
+    appointment.reference,
+    appointment.serviceId,
+    appointment.stylistId,
+    appointment.locationId,
+    appointment.date,
+    appointment.time,
+    appointment.guest.name,
+    appointment.guest.email,
+    appointment.guest.phone,
+    appointment.guest.notes,
+    appointment.amount,
+    appointment.status,
+    appointment.createdAt,
+  );
+
+  return appointment;
 }
 
 export async function createContactMessage(input: {
@@ -230,19 +259,31 @@ export async function createContactMessage(input: {
   if (message.length < 10) throw new StoreError("Write a little more so we can help.");
   if (!subject) throw new StoreError("Choose a subject.");
 
-  return updateStore((data) => {
-    if (!data.messages) data.messages = [];
-    const entry: ContactMessage = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      phone,
-      studio,
-      subject,
-      message,
-      createdAt: new Date().toISOString(),
-    };
-    data.messages.push(entry);
-    return entry;
-  });
+  const entry: ContactMessage = {
+    id: crypto.randomUUID(),
+    name,
+    email,
+    phone,
+    studio,
+    subject,
+    message,
+    createdAt: new Date().toISOString(),
+  };
+
+  db.prepare(
+    `INSERT INTO messages (id, name, email, phone, studio, subject, message, createdAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+  ).run(entry.id, entry.name, entry.email, entry.phone, entry.studio, entry.subject, entry.message, entry.createdAt);
+
+  return entry;
+}
+
+export async function listAppointments(): Promise<Appointment[]> {
+  const rows = db.prepare("SELECT * FROM appointments ORDER BY createdAt DESC").all() as unknown as AppointmentRow[];
+  return rows.map(rowToAppointment);
+}
+
+export async function listContactMessages(): Promise<ContactMessage[]> {
+  const rows = db.prepare("SELECT * FROM messages ORDER BY createdAt DESC").all() as unknown as MessageRow[];
+  return rows;
 }
