@@ -1,9 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { getChatReply, type ChatLink } from "@/lib/chatbot";
+
+/** Dark, image-backed sections across the site all share this class. */
+const DARK_SECTION_SELECTOR = ".bg-night";
 
 type ChatMessage = {
   id: string;
@@ -26,11 +30,44 @@ export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([welcome]);
   const [input, setInput] = useState("");
+  const [onDark, setOnDark] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  const tickingRef = useRef(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open]);
+
+  useEffect(() => {
+    function checkBackground() {
+      // Sample the viewport row the floating button actually sits in (bottom-6 + half its height).
+      const probeY = window.innerHeight - 56;
+      let dark = false;
+      document.querySelectorAll<HTMLElement>(DARK_SECTION_SELECTOR).forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.width > 0 && rect.top <= probeY && rect.bottom >= probeY) dark = true;
+      });
+      setOnDark(dark);
+    }
+
+    function onScroll() {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      requestAnimationFrame(() => {
+        checkBackground();
+        tickingRef.current = false;
+      });
+    }
+
+    checkBackground();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", checkBackground);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", checkBackground);
+    };
+  }, [pathname]);
 
   function send(event: React.FormEvent) {
     event.preventDefault();
@@ -124,15 +161,24 @@ export function ChatWidget() {
         aria-label={open ? "Close chat" : "Open chat"}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-white shadow-xl"
+        className={`flex h-14 w-14 items-center justify-center rounded-full shadow-xl transition-colors duration-300 ${
+          onDark ? "bg-white" : "bg-ink"
+        }`}
       >
         {open ? (
           <span className="relative h-5 w-5">
-            <span className="absolute left-0 right-0 top-1/2 h-px rotate-45 bg-white" />
-            <span className="absolute left-0 right-0 top-1/2 h-px -rotate-45 bg-white" />
+            <span className={`absolute left-0 right-0 top-1/2 h-px rotate-45 transition-colors duration-300 ${onDark ? "bg-ink" : "bg-white"}`} />
+            <span className={`absolute left-0 right-0 top-1/2 h-px -rotate-45 transition-colors duration-300 ${onDark ? "bg-ink" : "bg-white"}`} />
           </span>
         ) : (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            className="h-6 w-6 transition-colors duration-300"
+            fill="none"
+            stroke={onDark ? "#1c1c1c" : "#ffffff"}
+            strokeWidth="1.4"
+            aria-hidden
+          >
             <path d="M4 5.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.5v-3.5H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z" />
           </svg>
         )}
