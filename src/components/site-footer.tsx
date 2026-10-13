@@ -83,22 +83,51 @@ function SocialBadge({
 export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-white">
-      <div className="mx-auto grid max-w-[900px] gap-14 px-6 py-20 text-center sm:grid-cols-2">
-        <div>
-          <h2 className="font-serif text-3xl text-ink">Our Location</h2>
-          <div className="mt-6 space-y-5 text-sm leading-7 text-muted">
-            {locations.map((location) => (
-              <p key={location.name}>
-                <a href={`/locations#${location.slug}`} className="text-ink hover:text-bronze">
-                  {location.name.replace("Visit ", "Orielle ")}
-                </a>
-                <br />
-                {location.address}
-              </p>
-            ))}
+      <div className="mx-auto max-w-[900px] px-6 py-20 text-center">
+        <div className="grid gap-14 sm:grid-cols-2">
+          <div>
+            <h2 className="font-serif text-3xl text-ink">Our Location</h2>
+            <div className="mt-6 space-y-5 text-sm leading-7 text-muted">
+              {locations.map((location) => (
+                <p key={location.name}>
+                  <a href={`/locations#${location.slug}`} className="footer-link">
+                    {location.name.replace("Visit ", "Orielle ")}
+                  </a>
+                  <br />
+                  {location.address}
+                </p>
+              ))}
+            </div>
           </div>
 
-          <h2 className="mt-14 font-serif text-3xl text-ink">Working Hours</h2>
+          <div>
+            <h2 className="font-serif text-3xl text-ink">Get in Touch</h2>
+            <div className="mt-6 space-y-3 text-sm leading-7 text-muted">
+              <p>
+                phone:{" "}
+                <a href="tel:3235550148" className="footer-link">
+                  (323) 555-0148
+                </a>
+              </p>
+              <p>
+                <a href="mailto:hello@orielle.studio" className="footer-link">
+                  hello@orielle.studio
+                </a>
+              </p>
+            </div>
+            <div className="mt-6 flex justify-center gap-4 text-ink/55">
+              <a href="https://facebook.com" aria-label="Orielle on Facebook" className="transition hover:text-bronze">
+                <FacebookIcon className="h-6 w-6" />
+              </a>
+              <a href="https://instagram.com" aria-label="Orielle on Instagram" className="transition hover:text-bronze">
+                <InstagramIcon className="h-6 w-6" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-14">
+          <h2 className="font-serif text-3xl text-ink">Working Hours</h2>
           <ul className="mt-6 space-y-3 text-sm leading-7 text-muted">
             {hours.map(([day, time]) => (
               <li key={day}>
@@ -106,31 +135,6 @@ export function SiteFooter() {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div>
-          <h2 className="font-serif text-3xl text-ink">Get in Touch</h2>
-          <div className="mt-6 space-y-3 text-sm leading-7 text-muted">
-            <p>
-              phone:{" "}
-              <a href="tel:3235550148" className="text-ink hover:text-bronze">
-                (323) 555-0148
-              </a>
-            </p>
-            <p>
-              <a href="mailto:hello@orielle.studio" className="text-ink hover:text-bronze">
-                hello@orielle.studio
-              </a>
-            </p>
-          </div>
-          <div className="mt-6 flex justify-center gap-4 text-ink/55">
-            <a href="https://facebook.com" aria-label="Orielle on Facebook" className="transition hover:text-bronze">
-              <FacebookIcon className="h-6 w-6" />
-            </a>
-            <a href="https://instagram.com" aria-label="Orielle on Instagram" className="transition hover:text-bronze">
-              <InstagramIcon className="h-6 w-6" />
-            </a>
-          </div>
         </div>
       </div>
 

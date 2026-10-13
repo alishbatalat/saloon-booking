@@ -4,6 +4,7 @@ import { BrandLogoMarquee } from "@/components/brand-logo-marquee";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { HeroImageSlider } from "@/components/hero-image-slider";
 import { NewsletterForm } from "@/components/newsletter-form";
+import { ParallaxBackground } from "@/components/parallax-background";
 import { Reveal } from "@/components/reveal";
 import { TestimonialSlider } from "@/components/testimonial-slider";
 import { getHomeDemo, type HomeDemo } from "@/data/home-demos";
@@ -159,7 +160,7 @@ export function HomeView({ demo = getHomeDemo("beauty-center")! }: Props) {
       </section>
 
       <section className="relative min-h-[70vh] overflow-hidden bg-night">
-        <Image src={images.salon} alt="The Wilshire salon floor" fill className="object-cover bg-pan" sizes="100vw" />
+        <ParallaxBackground src={images.salon} alt="The Wilshire salon floor" />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center text-white">
           <h2 className="font-serif text-4xl uppercase leading-tight tracking-tight md:text-6xl">Place where you will feel peaceful</h2>
@@ -196,7 +197,7 @@ export function HomeView({ demo = getHomeDemo("beauty-center")! }: Props) {
       <section id="barbershop" className="bg-night text-white">
         <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
           <div className="relative aspect-[5/4] overflow-hidden">
-            <Image src={images.barber} alt="A barber finishing a cut" fill className="object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
+            <ParallaxBackground src={images.barber} alt="A barber finishing a cut" />
           </div>
           <div>
             <p className="text-[12px] uppercase tracking-[0.28em] text-white/70">Barbershop</p>

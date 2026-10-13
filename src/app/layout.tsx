@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { PageLoader } from "@/components/page-loader";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body className="min-h-screen bg-white antialiased">
+        <PageLoader />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

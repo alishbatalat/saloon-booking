@@ -33,9 +33,8 @@ body {
   }
 }
 
-/* Services nav menu — a self-contained fade/slide dropdown with a sliding accent bar per row
-   (inspired by dev.to/webdeasy "35 CSS Menus (+ Animations)"). Scoped entirely to .svc-menu*
-   so it never touches .nav-dd or any other existing styling. */
+/* Navbar dropdown template (Home, Services, Pages) — a fade/slide panel with a sliding
+   accent bar per row (inspired by dev.to/webdeasy "35 CSS Menus (+ Animations)"). */
 .svc-menu {
   position: relative;
 }
@@ -75,6 +74,8 @@ body {
   left: 0;
   z-index: 50;
   min-width: 240px;
+  max-height: 70vh;
+  overflow-y: auto;
   padding: 0.5rem 0;
   background: #fff;
   box-shadow: 0 10px 30px rgba(28, 28, 28, 0.12);
@@ -149,6 +150,49 @@ body {
   }
 }
 
+/* Footer link hover: same sliding accent bar + color/padding shift as the navbar dropdown items above, keeping footer's own type scale */
+.footer-link {
+  position: relative;
+  display: inline-block;
+  color: var(--color-ink);
+  padding-left: 0;
+  transition:
+    color 0.3s ease,
+    padding-left 0.3s ease;
+}
+
+.footer-link::before {
+  content: "";
+  position: absolute;
+  left: -0.85rem;
+  top: 50%;
+  width: 3px;
+  height: 0.95em;
+  background: var(--color-bronze);
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--color-bronze);
+  padding-left: 0.85rem;
+  outline: none;
+}
+
+.footer-link:hover::before,
+.footer-link:focus-visible::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-link,
+  .footer-link::before {
+    transition: none;
+  }
+}
+
 /* "Circles" CSS background pattern (dev.to/webdeasy "30 awesome CSS Background Patterns"), re-tinted to the studio palette */
 .bg-pattern-dots {
   background-image: radial-gradient(color-mix(in oklab, var(--color-bronze) 35%, transparent) 1px, transparent 1.6px);
@@ -195,188 +239,6 @@ body {
   .animate-logo-marquee {
     animation: none;
   }
-}
-
-/* Reine / WSMENU: Home + Pages navbar hover dropdown */
-.nav-dd {
-  position: relative;
-  perspective: 600px;
-}
-
-.nav-dd__trigger {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.5rem 0.625rem;
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--color-ink) 70%, transparent);
-  transition: color 0.2s ease;
-}
-
-.nav-dd__trigger:hover,
-.nav-dd:hover .nav-dd__trigger {
-  color: var(--color-ink);
-}
-
-.nav-dd__chevron {
-  display: inline-block;
-  font-size: 9px;
-  transition: transform 0.3s ease;
-}
-
-.nav-dd:hover .nav-dd__chevron,
-.nav-dd:focus-within .nav-dd__chevron {
-  transform: rotate(180deg);
-}
-
-.nav-dd__panel {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 50;
-  min-width: 220px;
-  max-height: 70vh;
-  overflow-y: auto;
-  padding: 1rem 1.5rem;
-  background: #fff;
-  box-shadow: 0 2px 3px rgba(96, 96, 96, 0.1);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform-origin: 0% 0%;
-  transform-style: preserve-3d;
-  transform: rotateX(-75deg);
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.nav-dd__panel--right {
-  left: auto;
-  right: 0;
-  transform-origin: 100% 0%;
-}
-
-.nav-dd:hover .nav-dd__panel,
-.nav-dd:focus-within .nav-dd__panel {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: rotateX(0deg);
-}
-
-/* Each Home / Pages suboption animates in separately */
-.nav-dd__item {
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s ease;
-}
-
-.nav-dd:hover .nav-dd__item,
-.nav-dd:focus-within .nav-dd__item {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.nav-dd:hover .nav-dd__item:nth-child(1),
-.nav-dd:focus-within .nav-dd__item:nth-child(1) {
-  transition-delay: 0.04s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(2),
-.nav-dd:focus-within .nav-dd__item:nth-child(2) {
-  transition-delay: 0.07s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(3),
-.nav-dd:focus-within .nav-dd__item:nth-child(3) {
-  transition-delay: 0.1s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(4),
-.nav-dd:focus-within .nav-dd__item:nth-child(4) {
-  transition-delay: 0.13s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(5),
-.nav-dd:focus-within .nav-dd__item:nth-child(5) {
-  transition-delay: 0.16s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(6),
-.nav-dd:focus-within .nav-dd__item:nth-child(6) {
-  transition-delay: 0.19s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(7),
-.nav-dd:focus-within .nav-dd__item:nth-child(7) {
-  transition-delay: 0.22s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(8),
-.nav-dd:focus-within .nav-dd__item:nth-child(8) {
-  transition-delay: 0.25s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(9),
-.nav-dd:focus-within .nav-dd__item:nth-child(9) {
-  transition-delay: 0.28s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(10),
-.nav-dd:focus-within .nav-dd__item:nth-child(10) {
-  transition-delay: 0.31s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(11),
-.nav-dd:focus-within .nav-dd__item:nth-child(11) {
-  transition-delay: 0.34s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(12),
-.nav-dd:focus-within .nav-dd__item:nth-child(12) {
-  transition-delay: 0.37s;
-}
-.nav-dd:hover .nav-dd__item:nth-child(n + 13),
-.nav-dd:focus-within .nav-dd__item:nth-child(n + 13) {
-  transition-delay: 0.4s;
-}
-
-/* Per-link hover: slide + accent bar (Beauty Center, Nail Salon, …) */
-.nav-dd__link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0 0.5rem 0;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #363636;
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease,
-    padding-left 0.3s ease;
-}
-
-.nav-dd__link::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--color-bronze);
-  transform: translateY(-50%);
-  transition: width 0.3s ease;
-}
-
-.nav-dd__link:hover,
-.nav-dd__link:focus-visible {
-  color: var(--color-bronze);
-  transform: translateX(10px);
-  padding-left: 0.75rem;
-  outline: none;
-}
-
-.nav-dd__link:hover::before,
-.nav-dd__link:focus-visible::before {
-  width: 0.5rem;
-}
-
-.nav-dd__link:active {
-  transform: translateX(6px) scale(0.98);
-  color: var(--color-ink);
 }
 
 /* Reine-style highlighted Book Online CTA */
@@ -481,10 +343,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-dd__panel,
-  .nav-dd__chevron,
-  .nav-dd__link,
-  .nav-dd__item,
   .nav-book,
   .nav-book::before,
   .btn-fill,
@@ -492,15 +350,5 @@ body {
   .btn-fill-light,
   .btn-fill-light::before {
     transition: none;
-  }
-
-  .nav-dd__panel,
-  .nav-dd__item,
-  .nav-dd__link {
-    transform: none;
-  }
-
-  .nav-dd__item {
-    opacity: 1;
   }
 }

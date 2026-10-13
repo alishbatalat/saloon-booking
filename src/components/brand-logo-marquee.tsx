@@ -116,8 +116,10 @@ export function BrandLogoMarquee() {
     <div className="overflow-hidden border-y border-line bg-white py-12">
       <div className="flex w-max animate-logo-marquee items-center hover:[animation-play-state:paused]">
         {[...logos, ...logos].map((def, index) => (
-          <div key={index} className="group flex shrink-0 items-center px-9">
-            <Logo def={def} idPrefix={`brand-logo-${index}`} />
+          <div key={index} className="group flex shrink-0 items-center px-9" style={{ perspective: "700px" }}>
+            <div className="transition-transform duration-700 ease-out [transform-style:preserve-3d] group-hover:[transform:rotateY(360deg)]">
+              <Logo def={def} idPrefix={`brand-logo-${index}`} />
+            </div>
           </div>
         ))}
       </div>

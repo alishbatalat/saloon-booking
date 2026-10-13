@@ -3,14 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { menuGroups } from "@/data/home";
-
 type NavChild = { label: string; href: string };
-
-const serviceChildren: NavChild[] = menuGroups.map((group) => ({
-  label: group.title,
-  href: `/menu#${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-}));
 
 const homeChildren: NavChild[] = [
   { label: "Beauty Center", href: "/" },
@@ -69,41 +62,8 @@ const drawerItemVariants = {
   },
 };
 
-/** Reine hover dropdown — Beauty Center + Home / Pages suboptions */
-function HoverDropdown({
-  label,
-  items,
-  align = "left",
-}: {
-  label: string;
-  items: NavChild[];
-  align?: "left" | "right";
-}) {
-  return (
-    <div className="nav-dd">
-      <button type="button" className="nav-dd__trigger" aria-haspopup="true">
-        {label}
-        <span className="nav-dd__chevron" aria-hidden>
-          ▼
-        </span>
-      </button>
-      <div className={`nav-dd__panel${align === "right" ? " nav-dd__panel--right" : ""}`}>
-        <ul>
-          {items.map((child) => (
-            <li key={child.href + child.label} className="nav-dd__item">
-              <a href={child.href} className="nav-dd__link">
-                {child.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-/** Self-contained CSS menu for Services — fade/slide panel with a per-row sliding accent bar (keeps its own svc-menu__* classes, isolated from .nav-dd). */
-function ServicesMenu({ label, items }: { label: string; items: NavChild[] }) {
+/** Navbar dropdown template — fade/slide panel with a per-row sliding accent bar. Used for every top-level menu (Home, Services, Pages). */
+function NavMenu({ label, items }: { label: string; items: NavChild[] }) {
   return (
     <div className="svc-menu">
       <button type="button" className="svc-menu__trigger" aria-haspopup="true">
@@ -129,7 +89,7 @@ function ServicesMenu({ label, items }: { label: string; items: NavChild[] }) {
 
 function Logo({ onClick }: { onClick?: () => void }) {
   return (
-    <a href="/" onClick={onClick} className="text-ink">
+    <a href="/" onClick={onClick} className="flex flex-col items-center text-ink">
       <span className="block font-serif text-[30px] leading-none tracking-[0.12em]">ORIELLE</span>
       <span className="mt-1 block text-[10px] uppercase tracking-[0.36em] text-ink">Beauty Studio</span>
     </a>
@@ -236,9 +196,11 @@ export function SiteHeader() {
 
           {/* Desktop: Home · Services · Pages · Portfolio · Blog · Book Online */}
           <nav className="hidden items-center gap-1 overflow-visible lg:flex" aria-label="Main">
-            <HoverDropdown label="Home" items={homeChildren} />
-            <ServicesMenu label="Services" items={serviceChildren} />
-            <HoverDropdown label="Pages" items={pagesChildren} />
+            <NavMenu label="Home" items={homeChildren} />
+            <a href="/menu" className="px-2.5 py-2 text-[12px] uppercase tracking-[0.16em] text-ink/70 transition hover:text-ink">
+              Services
+            </a>
+            <NavMenu label="Pages" items={pagesChildren} />
             {simpleLinks.map((link) => (
               <a
                 key={link.href}
@@ -312,14 +274,15 @@ export function SiteHeader() {
                     onClose={() => setDrawerHover(null)}
                     onNavigate={closeMenu}
                   />
-                  <DrawerHoverItem
-                    label="Services"
-                    items={serviceChildren}
-                    open={drawerHover === "services"}
-                    onOpen={() => setDrawerHover("services")}
-                    onClose={() => setDrawerHover(null)}
-                    onNavigate={closeMenu}
-                  />
+                  <motion.li variants={drawerItemVariants} className="border-b border-line">
+                    <a
+                      href="/menu"
+                      onClick={closeMenu}
+                      className="block px-5 py-4 text-[15px] uppercase tracking-[0.06em] text-[#666] hover:bg-black/[0.04] hover:text-ink"
+                    >
+                      Services
+                    </a>
+                  </motion.li>
                   <DrawerHoverItem
                     label="Pages"
                     items={pagesChildren}
